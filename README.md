@@ -23,14 +23,14 @@ Note: to stop the monitor, just type `Ctrl + ]`.
 
 To work with the log system from espressif, we first need to add its library, then define a TAG to appear in the message log.
 
-```py
+```c
 #include "esp_log.h"
 #define TAG "my_tag"
 ```
 
 Then to use the log, we just need to call:
 
-```py
+```c
 ESP_LOGI(TAG, "Iniciando o bagulho.");
 ```
 
@@ -48,7 +48,7 @@ We can change the tymestamp by opening the **menuconfig** (`start idf.py menucon
 
 We also can use different types of log, such as:
 
-```py
+```c
 ESP_LOGI("LOG", "This is an info");
 ESP_LOGW("LOG", "This is a warning");
 ESP_LOGD("LOG", "This is a debug");
@@ -71,8 +71,47 @@ Here we will discuss a little bit about the configurations related to time. We a
 * Open the **menuconfig** (`start idf.py menuconfig`).
 * Set the crystal frequency: 'Component config' ---> 'Hardware Settings' ---> 'Main XTAL Config' and 'Main XTAL frequency' and set it to '(X) 40 MHz'.
 * Change the CPU frequency to 240 MHz by going to 'Component config --->' -> 'ESP System Settings' -> 'CPU frequency' -> '(X) 240 MHz'.
+* In the source file, we add the incluse for time functions.
+```c
+#include "esp_timer.h"
+```
+* Inside a while(1) loop, we add only the code to read the time:
+```c
+    while(1){
+       printf("Timer: %lld microseconds\n", esp_timer_get_time());
+    }
+```
+* Now let's check the time that took between one get_time and another.
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/68e817ca-f09c-4fce-ba22-31951ed29cb9)
 
-In the source file 
+According to the printed message on the terminal, the time between one printf and another were: **2517** microseconds.
+* Now comparint with the time between LOG messages:
+```c
+    while(1){
+        ESP_LOGI(TAG, "Timer: %lld microseconds", esp_timer_get_time());
+        //printf("Timer: %lld microseconds\n", esp_timer_get_time());
+    }
+```
+* Let's check the results and compare with the printf message:
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/6ea9de59-dd77-43f6-a18e-3fbc90c0acc3)
+
+Almost twice the time of the printf function, **4948**.
+
+* A função `vTaskDelay()` faz parte da FreeRTOS. Ela é usada para atrasar a execução de uma tarefa (ou thread) por um período específico de tempo, permitindo que outras tarefas sejam executadas durante o atraso. Vamos adicionar a lib referente ao FreeRTOS.
+```c
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
+```
+* Now let's use the `vTaskDelay()` to generate the delay. We can pass the number of ticks directly to the function by `vTaskDelay(1000)`. Adding this before the printf message we have as results:
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/157338e5-e554-482c-96ca-fab9f908368c)
+
+It took **10000000** microseconds (10 seconds) between one reading and another.
+
+ 
+
+  
+
 
 # Bibliography
 
