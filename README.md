@@ -69,9 +69,10 @@ The verbose and error messages didn't appear because they are not set. We change
 Here we will discuss a little bit about the configurations related to time. We already did some configurations by:
 
 * Open the **menuconfig** (`start idf.py menuconfig`).
-* Set the crystal frequency: 'Component config --->' -> 'Hardware Settings' -> 'Main XTAL Config' and 'Main XTAL frequency' and set it to '(X) 40 MHz'.
+* Set the crystal frequency: 'Component config' ---> 'Hardware Settings' ---> 'Main XTAL Config' and 'Main XTAL frequency' and set it to '(X) 40 MHz'.
 * Change the CPU frequency to 240 MHz by going to 'Component config --->' -> 'ESP System Settings' -> 'CPU frequency' -> '(X) 240 MHz'.
-* 
+
+In the source file 
 
 # Bibliography
 
