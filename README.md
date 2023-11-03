@@ -5,19 +5,23 @@ We need to recover information from the ESP32 board to aid during the developmen
 
 ## USB-UART Monitor
 
-To print and use the UART monitor, basicly we need to include the standard library for input/output, the `#include <stdio.h>`, and when desired to call the `printf` functions.
+To print and use the UART monitor, basicly we need to include the standard library for input/output, the `#include <stdio.h>`, and when desired to call the `printf()` functions.
 Then, insted of just running on the Terminal the command to flash, we use: 
 
-* `idf.py build flash monitor`
+* `idf.py build flash monitor` or,
+* `idf.py build`, `idf.py -p COM5 flash` and `idf.py -p COM5 monitor`.
 
 As results:
 
 ![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/d5ee0399-c518-4c22-adb4-46dca1d14ea8)
 
-The message isn't static, there are also others messagens that are sent to monitor and important things may get lost.
+The message isn't static (and just being connected to the usb message will be dropped on monitor, not deppendent on having a while(1) loop running), there are also others messagens that are sent to monitor and important things may get lost. It is also possible to use the `scarf()` function, but it is not our point here.
+
+Note: to stop the monitor, just type `Ctrl + ]`.
 
 ## LOG
 
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/5ec74534-914d-4f39-85f1-337fd523b9b7)
 
 
 
