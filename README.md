@@ -21,9 +21,57 @@ Note: to stop the monitor, just type `Ctrl + ]`.
 
 ## LOG
 
+To work with the log system from espressif, we first need to add its library, then define a TAG to appear in the message log.
+
+```py
+#include "esp_log.h"
+#define TAG "my_tag"
+```
+
+Then to use the log, we just need to call:
+
+```py
+ESP_LOGI(TAG, "Iniciando o bagulho.");
+```
+
+It is possible to send `##__VA_ARGS__` if desired, so it can print some variable. As results we have:
+
 ![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/5ec74534-914d-4f39-85f1-337fd523b9b7)
 
+The LOG informations appears as: 
 
+* I (Milliseconds since boot) TAG: "Message"
+
+We can change the tymestamp by opening the **menuconfig** (`start idf.py menuconfig`) and then going to 'Component config' --> 'Log output' --> 'Log timestamps' and changint it to 'System time'.
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/f3a5f2e3-d2cd-4aaf-9494-ea2faef9d6d2)
+
+We also can use different types of log, such as:
+
+```py
+ESP_LOGI("LOG", "This is an info");
+ESP_LOGW("LOG", "This is a warning");
+ESP_LOGD("LOG", "This is a debug");
+ESP_LOGV("LOG", "This is a verbose");
+ESP_LOGE("LOG", "This is an error"); 
+```
+
+As results we see that we can have diffent color coded messages, according with the log type choosen.
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/5a2e836d-3d09-49ed-b209-4da475c819c6)
+
+The verbose and error messages didn't appear because they are not set. We changed the timestamp but we didn't configurated the FreeRTOS. Next part of this studie will discuss timmed functions (ESP32 clock, time between functions and others).
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/6ed5cc55-c473-48a1-8986-f1b6000d496b)
+
+## Timmed functions
+
+Here we will discuss a little bit about the configurations related to time. We already did some configurations by:
+
+* Open the **menuconfig** (`start idf.py menuconfig`).
+* Set the crystal frequency: 'Component config --->' -> 'Hardware Settings' -> 'Main XTAL Config' and 'Main XTAL frequency' and set it to '(X) 40 MHz'.
+* Change the CPU frequency to 240 MHz by going to 'Component config --->' -> 'ESP System Settings' -> 'CPU frequency' -> '(X) 240 MHz'.
+* 
 
 # Bibliography
 
