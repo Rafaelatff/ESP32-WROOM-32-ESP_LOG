@@ -106,11 +106,29 @@ Almost twice the time of the printf function, **4948**.
 
 ![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/157338e5-e554-482c-96ca-fab9f908368c)
 
-It took **10000000** microseconds (10 seconds) between one reading and another.
+It took **10000000** microseconds (10 seconds) between one reading and another. I guess my timming functions aren't configured so well. But this repositorie is here so we can leran how to, correcly configure it. Let's check our menuconfig:
 
+On the `esp_timer` we have:
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/fda2c4f2-c961-469d-8730-13aa3ff2f8ea)
+
+On the `freeRTOS` we have:
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/71e1925f-6aeb-4016-ab67-4b084103ce2d)
+
+I tried to configure the `configTICK_RATE_HZ` to 1 (min value), but it returned the error (and rebooted):
+
+```py
+assert failed: esp_int_wdt_cpu_init int_wdt.c:147 ((CONFIG_ESP_INT_WDT_TIMEOUT_MS >= (portTICK_PERIOD_MS << 1)) && "Interrupt watchdog timeout needs to be at least twice the RTOS tick period!")
+```
+
+To fix that, I also had to change the 'Componet Config' ---> 'ESP System Settings' ---> 'Interrupt Watchdog Timeout (ms)' to 10000. ESP32 get slower..
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/a70df460-d9cb-483b-aa17-232ec574c864)
+
+Then I configure the `configTICK_RATE_HZ` to 1000 (max value).
  
-
-  
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/7259a821-8921-4938-bb95-38d3a73248a4)
 
 
 # Bibliography
@@ -118,3 +136,6 @@ It took **10000000** microseconds (10 seconds) between one reading and another.
 All the links that help me through the process of ESP32 learning.
 
 * [ESP IDF printf and scanf via the console without UART definitions](https://www.youtube.com/watch?v=WzxZSvWVWpM).
+* [ESP IDF Timer 1 - timer_esp_timer_get_time](https://www.youtube.com/watch?v=grBvdzKdNTY&list=PLgrKXQgo8LPt12719eN2-xVFqlmRZd2Qk&index=1).
+* [ESP IDF Timer 2 - portTICK_PERIOD_MS vs portTICK_RATE_MS](https://www.youtube.com/watch?v=-IIXnF3NnyI&list=PLgrKXQgo8LPt12719eN2-xVFqlmRZd2Qk&index=2).
+* [ESP IDF Timer 3 - vTaskDelay in ticks](https://www.youtube.com/watch?v=O4SwMBGzWa4&list=PLgrKXQgo8LPt12719eN2-xVFqlmRZd2Qk&index=3).
