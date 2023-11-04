@@ -130,6 +130,13 @@ Then I configure the `configTICK_RATE_HZ` to 1000 (max value).
  
 ![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/7259a821-8921-4938-bb95-38d3a73248a4)
 
+Nothing changed :(. Today I wake up thinking about printing only the value, not the whole string (this takes time!). And it looks it takes really a lot of time! UART speed is 115200 kbps, this is limiting my code.
+
+![image](https://github.com/Rafaelatff/ESP32-WROOM-32-ESP_LOG/assets/58916022/cb14e91f-4949-4de5-9cd5-efd9f03cc7cc)
+
+**Now I have a speed of 781 microseconds.**
+
+Maybe test the on/off of the blue LED on the oscilloscope (limited to 100 MHz). I guess it is okay for the moment.. test with oscilloscope can be placed during the PWM tests/learning.
 
 # Bibliography
 
