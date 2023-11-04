@@ -1,0 +1,7 @@
+{
+    "idf.adapterTargetName": "esp32",
+    "files.associations": {
+        "timers.h": "c",
+        "freertosconfig.h": "c"
+    }
+}
